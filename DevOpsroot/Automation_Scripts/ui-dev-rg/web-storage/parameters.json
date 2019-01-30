@@ -6,7 +6,7 @@
             "value": "westus2"
         },
         "storageAccountName": {
-            "value": "ad440devuiwebstorage"
+            "value": "ad440uidevwebstorage"
         },
         "accountType": {
             "value": "Standard_LRS"
