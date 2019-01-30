@@ -38,7 +38,7 @@
             },
             "kind": "[parameters('kind')]",
             "tags": {
-                "creator": "Clint Shaw"
+                "creator": "DevOps Team"
             }
         }
     ],
