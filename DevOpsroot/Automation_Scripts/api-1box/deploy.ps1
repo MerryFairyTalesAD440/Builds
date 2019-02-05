@@ -31,7 +31,7 @@ param(
 
  [Parameter(Mandatory=$True)]
  [string]
- $developerName,
+ $resourceUser,
 
  [string]
  $resourceGroupLocation,
@@ -41,7 +41,7 @@ param(
  $deploymentName,
 
  [string]
- $templateFilePath = "template.json",
+ $templateFilePath = "template-apionebox.json",
 
  [string]
  $parametersFilePath = "parameters.json"
@@ -85,7 +85,7 @@ if($resourceProviders.length) {
 
 
 #Create or check for existing resource group
-$resourceGroupName = 'ad440-' + $developerName + '-api-1box-rg'
+$resourceGroupName = 'ad440-' + $resourceUser + '-api-1box-rg'
 $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
 if(!$resourceGroup)
 {

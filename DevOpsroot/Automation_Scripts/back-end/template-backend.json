@@ -32,7 +32,7 @@
                         },
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                            "value": "[reference('microsoft.insights/components/ad440devapifunctions', '2015-05-01').InstrumentationKey]"
+                            "value": "[reference(concat('microsoft.insights/components/', parameters('name')) ,'2015-05-01').InstrumentationKey]"
                         }
                     ]
                 },
@@ -42,7 +42,7 @@
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-                "microsoft.insights/components/ad440devapifunctions"
+                "[concat('microsoft.insights/components/', parameters('name'))]"
             ],
             "apiVersion": "2016-03-01",
             "location": "West US 2",
@@ -52,14 +52,14 @@
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[parameters('storageName')]",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "accountType": "Standard_LRS"
             }
         },
         {
             "apiVersion": "2015-05-01",
-            "name": "ad440devapifunctions",
+            "name": "ad440functionapp",
             "type": "microsoft.insights/components",
             "location": "West US 2",
             "properties": {
@@ -72,16 +72,30 @@
         "name": {
             "type": "string"
         },
-        "storageName": {
-            "type": "string"
-        },
         "location": {
             "type": "string"
         },
-        "subscriptionId": {
+        "storageName": {
+            "defaultValue": "ad440funstorage",
             "type": "string"
+        },
+        "storageAccountName": {
+            "defaultValue": "ad440funstoracc",
+            "type": "string"
+        },
+        "accountType": {
+            "type": "string"
+        },
+        "kind": {
+            "type": "string"
+        },
+        "accessTier": {
+            "type": "string"
+        },
+        "supportsHttpsTrafficOnly": {
+            "type": "bool"
         }
     },
-    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0"
 }

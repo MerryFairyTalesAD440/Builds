@@ -31,7 +31,7 @@ param(
 
  [Parameter(Mandatory=$True)]
  [string]
- $resourceGroupName,
+ $resourceEnvironment,
  
  [string]
  $resourceGroupLocation,
@@ -41,7 +41,7 @@ param(
  $deploymentName,
 
  [string]
- $templateFilePath = "template.json",
+ $templateFilePath = "template-frontend.json",
 
  [string]
  $parametersFilePath = "parameters.json"
@@ -70,6 +70,9 @@ $ErrorActionPreference = "Stop"
 Write-Host "Logging in...";
 Login-AzureRmAccount;
 
+# # remove stale context
+# Clear-AzContext -Force;
+
 # select subscription
 Write-Host "Selecting subscription '$subscriptionId'";
 Select-AzureRmSubscription -SubscriptionID $subscriptionId;
@@ -84,6 +87,7 @@ if($resourceProviders.length) {
 }
 
 #Create or check for existing resource group
+$resourceGroupName = "ad440-ui-"+$resourceEnvironment+"-rg"
 $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
 if(!$resourceGroup)
 {
@@ -97,6 +101,7 @@ if(!$resourceGroup)
 else{
     Write-Host "Using existing resource group '$resourceGroupName'";
 }
+
 
 # Start the deployment
 Write-Host "Starting deployment...";

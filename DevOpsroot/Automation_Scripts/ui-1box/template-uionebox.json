@@ -21,15 +21,18 @@
             "type": "bool"
         }
     },
-    "variables": {},
+    "variables": {
+        "storageName": "[toLower( concat( parameters('storageAccountName'), uniqueString(resourceGroup().id) ) )]",
+        "location": "[resourceGroup().location]"
+    },
     "resources": [
         {
-            "name": "[parameters('storageAccountName')]",
+            "name": "[variables('storageName')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-07-01",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "properties": {
-                "accessTier": "[parameters('accessTier')]",
+                "accessTier": "Hot",
                 "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]"
             },
             "dependsOn": [],

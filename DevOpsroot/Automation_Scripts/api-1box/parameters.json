@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "name": {
-            "value": "ad440oneboxtemp"
+            "value": "1boxtemp"
         },
         "storageName": {
-            "value": "ad440oneboxtempbb81"
+            "value": "1boxtemp"
         },
         "location": {
             "value": "West US 2"

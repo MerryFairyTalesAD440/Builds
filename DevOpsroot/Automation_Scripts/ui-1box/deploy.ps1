@@ -31,8 +31,8 @@ param(
 
  [Parameter(Mandatory=$True)]
  [string]
- $developerName,
-
+ $resourceUser,
+ 
  [string]
  $resourceGroupLocation,
 
@@ -41,7 +41,7 @@ param(
  $deploymentName,
 
  [string]
- $templateFilePath = "template.json",
+ $templateFilePath = "template-uionebox.json",
 
  [string]
  $parametersFilePath = "parameters.json"
@@ -75,7 +75,7 @@ Write-Host "Selecting subscription '$subscriptionId'";
 Select-AzureRmSubscription -SubscriptionID $subscriptionId;
 
 # Register RPs
-$resourceProviders = @("microsoft.web","microsoft.storage","microsoft.insights");
+$resourceProviders = @("microsoft.storage");
 if($resourceProviders.length) {
     Write-Host "Registering resource providers"
     foreach($resourceProvider in $resourceProviders) {
@@ -83,9 +83,8 @@ if($resourceProviders.length) {
     }
 }
 
-
 #Create or check for existing resource group
-$resourceGroupName = 'ad440-' + $developerName + '-ui-1box-rg'
+$resourceGroupName = "ad440-"+$resourceUser+"-ui-1box-rg"
 $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
 if(!$resourceGroup)
 {
@@ -100,10 +99,11 @@ else{
     Write-Host "Using existing resource group '$resourceGroupName'";
 }
 
+
 # Start the deployment
 Write-Host "Starting deployment...";
 if(Test-Path $parametersFilePath) {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath;
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath -Debug;
 } else {
     New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath;
 }
