@@ -40,7 +40,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
-            "location": "West US 2",
+            "location": "[resourceGroup().location]",
             "kind": "functionapp"
         },
         {
@@ -57,13 +57,10 @@
         "name": {
             "type": "string"
         },
-        "storageName": {
-            "type": "string"
-        },
         "location": {
             "type": "string"
         },
-        "subscriptionId": {
+        "storageName": {
             "type": "string"
         }
     },

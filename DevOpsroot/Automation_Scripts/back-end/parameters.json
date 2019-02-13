@@ -3,19 +3,16 @@
     "contentVersion": "1.0.0.0",
     "parameters": { 
         "name": {
-            "value": "ad440functionapp"
+            "value": "apifunc"
         },
-        "accountType": {
-            "value": "Standard_LRS"
+        "insightname": {
+            "value": "apiinsight"
         },
-        "kind": {
-            "value": "BlobStorage"
+        "storagename": {
+            "value": "apistorage"
         },
-        "accessTier": {
-            "value": "Hot"
-        },
-        "supportsHttpsTrafficOnly": {
-            "value": true
+        "location": {
+            "value": "West US 2"
         }
     }
 

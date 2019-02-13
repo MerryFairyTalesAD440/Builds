@@ -36,7 +36,6 @@ param(
  [string]
  $resourceGroupLocation,
 
- [Parameter(Mandatory=$True)]
  [string]
  $deploymentName,
 

@@ -1,9 +1,10 @@
 {
     "resources": [
         {
-            "name": "[parameters('name')]",
+            "apiVersion": "2016-03-01",
             "type": "Microsoft.Web/sites",
             "properties": {
+                "name": "[variables('name')]",
                 "siteConfig": {
                     "appSettings": [
                         {
@@ -12,7 +13,7 @@
                         },
                         {
                             "name": "AzureWebJobsStorage",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-05-01-preview').key1)]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storagename'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storagename')), '2015-05-01-preview').key1)]"
                         },
                         {
                             "name": "FUNCTIONS_EXTENSION_VERSION",
@@ -20,11 +21,11 @@
                         },
                         {
                             "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2015-05-01-preview').key1)]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storagename'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storagename')), '2015-05-01-preview').key1)]"
                         },
                         {
                             "name": "WEBSITE_CONTENTSHARE",
-                            "value": "[concat(toLower(parameters('name')), '8f5c')]"
+                            "value": "[concat(toLower(variables('name')), '8f5c')]"
                         },
                         {
                             "name": "WEBSITE_NODE_DEFAULT_VERSION",
@@ -32,26 +33,25 @@
                         },
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                            "value": "[reference(concat('microsoft.insights/components/', parameters('name')) ,'2015-05-01').InstrumentationKey]"
+                            "value": "[reference(concat('microsoft.insights/components/', variables('insightname')) ,'2015-05-01').InstrumentationKey]"
                         }
                     ]
                 },
-                "name": "[parameters('name')]",
                 "clientAffinityEnabled": false,
                 "reserved": false
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
-                "[concat('microsoft.insights/components/', parameters('name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storagename'))]",
+                "[concat('microsoft.insights/components/', variables('insightname'))]"
             ],
-            "apiVersion": "2016-03-01",
-            "location": "West US 2",
+            "name": "[variables('name')]",
+            "location": "[resourceGroup().location]",
             "kind": "functionapp"
         },
         {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Storage/storageAccounts",
-            "name": "[parameters('storageName')]",
+            "name": "[variables('storagename')]",
             "location": "[resourceGroup().location]",
             "properties": {
                 "accountType": "Standard_LRS"
@@ -59,43 +59,39 @@
         },
         {
             "apiVersion": "2015-05-01",
-            "name": "ad440functionapp",
+            "name": "[variables('insightname')]",
             "type": "microsoft.insights/components",
-            "location": "West US 2",
+            "location": "[resourceGroup().location]",
             "properties": {
-                "ApplicationId": "[parameters('name')]",
+                "ApplicationId": "[variables('insightname')]",
                 "Request_Source": "IbizaWebAppExtensionCreate"
             }
         }
     ],
     "parameters": {
         "name": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "api-func"
+        },
+        "insightname": {
+            "type": "string",
+            "defaultValue": "api-insight"
+        },
+        "storagename": {
+            "type": "string",
+            "defaultValue": "api-storage"
         },
         "location": {
-            "type": "string"
-        },
-        "storageName": {
-            "defaultValue": "ad440funstorage",
-            "type": "string"
-        },
-        "storageAccountName": {
-            "defaultValue": "ad440funstoracc",
-            "type": "string"
-        },
-        "accountType": {
-            "type": "string"
-        },
-        "kind": {
-            "type": "string"
-        },
-        "accessTier": {
-            "type": "string"
-        },
-        "supportsHttpsTrafficOnly": {
-            "type": "bool"
+            "type": "string",
+            "defaultValue": "westus2"
         }
     },
+    "variables": {
+        "storageName": "[toLower( concat( parameters('storagename'), uniqueString(resourceGroup().id) ) )]",
+        "location": "[resourceGroup().location]",
+        "name":"[toLower( concat( parameters('name'), uniqueString(resourceGroup().id) ) )]",
+        "insightName":"[toLower( concat( parameters('insightname'), uniqueString(resourceGroup().id) ) )]"
+      },
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0"
 }
