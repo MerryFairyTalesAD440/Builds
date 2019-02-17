@@ -34,7 +34,7 @@
             "name": "[concat('ad440storage', parameters('tier')[0])]", 
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-07-01",
-            "location": "[resourceGroup().location]",
+            "location": "[variables('location')]",
             "properties": {
                 "accessTier": "Hot",
                 "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]"
@@ -52,7 +52,7 @@
             "name": "[concat('ad440storage', parameters('tier')[1])]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-07-01",
-            "location": "[resourceGroup().location]",
+            "location": "[variables('location')]",
             "properties": {
                 "accessTier": "Hot",
                 "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]"
