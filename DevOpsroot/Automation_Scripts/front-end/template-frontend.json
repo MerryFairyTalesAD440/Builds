@@ -28,10 +28,12 @@
             "type": "bool"
         }
     },
-    "variables": {},
+    "variables": {
+        "location": "West US 2"
+    },
     "resources": [
         {
-            "name": "[concat('ad440storage', parameters('tier')[0])]", 
+            "name": "[concat('ad440storage-', parameters('tier')[0])]", 
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-07-01",
             "location": "[variables('location')]",
@@ -49,7 +51,7 @@
             }
         },
         {
-            "name": "[concat('ad440storage', parameters('tier')[1])]",
+            "name": "[concat('ad440storage-', parameters('tier')[1])]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-07-01",
             "location": "[variables('location')]",

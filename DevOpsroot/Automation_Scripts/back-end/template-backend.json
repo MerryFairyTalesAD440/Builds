@@ -3,8 +3,8 @@
         {
             "apiVersion": "2016-03-01",
             "type": "Microsoft.Web/sites",
+            "name": "[variables('name')]",
             "properties": {
-                "name": "[variables('name')]",
                 "siteConfig": {
                     "appSettings": [
                         {
@@ -44,7 +44,6 @@
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('storagename'))]",
                 "[concat('microsoft.insights/components/', variables('insightname'))]"
             ],
-            "name": "[variables('name')]",
             "location": "[variables('location')]",
             "kind": "functionapp"
         },
@@ -69,28 +68,21 @@
         }
     ],
     "parameters": {
-        "name": {
-            "type": "string",
-            "defaultValue": "api-func"
+        "functionname": {
+            "type": "string"
         },
         "insightname": {
-            "type": "string",
-            "defaultValue": "api-insight"
+            "type": "string"
         },
         "storagename": {
-            "type": "string",
-            "defaultValue": "api-storage"
-        },
-        "location": {
-            "type": "string",
-            "defaultValue": "westus2"
+            "type": "string"
         }
     },
     "variables": {
         "storageName": "[toLower( concat( parameters('storagename'), uniqueString(resourceGroup().id) ) )]",
-        "location": "[resourceGroup().location]",
-        "name":"[toLower( concat( parameters('name'), uniqueString(resourceGroup().id) ) )]",
-        "insightName":"[toLower( concat( parameters('insightname'), uniqueString(resourceGroup().id) ) )]"
+        "location": "West US 2",
+        "name": "[toLower( concat( parameters('name'), uniqueString(resourceGroup().id) ) )]",
+        "insightName": "[toLower( concat( parameters('insightname'), uniqueString(resourceGroup().id) ) )]"
       },
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0"

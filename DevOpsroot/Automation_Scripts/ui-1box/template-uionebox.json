@@ -2,9 +2,6 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "location": {
-            "type": "string"
-        },
         "storageAccountName": {
             "type": "string"
         },
@@ -22,8 +19,8 @@
         }
     },
     "variables": {
-        "storageName": "[toLower( concat( parameters('storageAccountName'), uniqueString(resourceGroup().id) ) )]",
-        "location": "[resourceGroup().location]"
+        "storageName": "[toLower( concat( 1boxstorage-, uniqueString(resourceGroup().id) ) )]",
+        "location": "West US 2"
     },
     "resources": [
         {
