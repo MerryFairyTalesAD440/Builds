@@ -9,10 +9,10 @@
                 "assetstore"
                 ] 
             },
-        "location": {
+        "storageName": {
             "type": "string"
         },
-        "storageAccountName": {
+        "location": {
             "type": "string"
         },
         "accountType": {
@@ -28,15 +28,12 @@
             "type": "bool"
         }
     },
-    "variables": {
-        "location": "West US 2"
-    },
     "resources": [
         {
-            "name": "[concat('ad440storage-', parameters('tier')[0])]", 
+            "name": "[concat(parameters('storageName'), parameters('tier')[0])]", 
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-07-01",
-            "location": "[variables('location')]",
+            "location": "[parameters('location')]",
             "properties": {
                 "accessTier": "Hot",
                 "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]"
@@ -45,18 +42,18 @@
             "sku": {
                 "name": "[parameters('accountType')]"
             },
-            "kind": "StorageV2",
+            "kind": "[parameters('kind')]",
             "tags": {
                 "creator": "DevOps Team"
             }
         },
         {
-            "name": "[concat('ad440storage-', parameters('tier')[1])]",
+            "name": "[concat(parameters('storageName'), parameters('tier')[1])]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-07-01",
-            "location": "[variables('location')]",
+            "location": "[parameters('location')]",
             "properties": {
-                "accessTier": "Hot",
+                "accessTier": "[parameters('accesstier')]",
                 "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]"
             },
             "dependsOn": [],
