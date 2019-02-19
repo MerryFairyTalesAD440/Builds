@@ -33,10 +33,10 @@ param(
  [string]
  $resourceUser,
  
+ [Parameter(Mandatory=$True)]
  [string]
  $resourceGroupLocation,
 
- [Parameter(Mandatory=$True)]
  [string]
  $deploymentName,
 
@@ -89,9 +89,6 @@ $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction 
 if(!$resourceGroup)
 {
     Write-Host "Resource group '$resourceGroupName' does not exist. To create a new resource group, please enter a location.";
-    if(!$resourceGroupLocation) {
-        $resourceGroupLocation = Read-Host "resourceGroupLocation";
-    }
     Write-Host "Creating resource group '$resourceGroupName' in location '$resourceGroupLocation'";
     New-AzureRmResourceGroup -Name $resourceGroupName -Location $resourceGroupLocation
 }
@@ -101,9 +98,10 @@ else{
 
 
 # Start the deployment
+$deploymentName = ( -join ("deployment_", (Get-Date -Format "yyyy-MM-dd_HHmm").toString()))
 Write-Host "Starting deployment...";
 if(Test-Path $parametersFilePath) {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath -Debug;
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath;
 } else {
     New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath;
 }

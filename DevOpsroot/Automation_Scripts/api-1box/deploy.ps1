@@ -90,7 +90,6 @@ $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction 
 if(!$resourceGroup)
 {
     Write-Host "Resource group '$resourceGroupName' does not exist. To create a new resource group, please enter a location.";
-
     Write-Host "Creating resource group '$resourceGroupName' in location '$resourceGroupLocation'";
     New-AzureRmResourceGroup -Name $resourceGroupName -Location $resourceGroupLocation
 }
@@ -98,6 +97,7 @@ else{
     Write-Host "Using existing resource group '$resourceGroupName'";
 }
 
+$deploymentName = ( -join ("deployment_", (Get-Date -Format "yyyy-MM-dd_HHmm").toString()))
 # Start the deployment
 Write-Host "Starting deployment...";
 if(Test-Path $parametersFilePath) {
