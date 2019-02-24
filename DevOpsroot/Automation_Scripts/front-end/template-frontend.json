@@ -18,9 +18,6 @@
         "accountType": {
             "type": "string"
         },
-        "kind": {
-            "type": "string"
-        },
         "accessTier": {
             "type": "string"
         },
@@ -42,7 +39,7 @@
             "sku": {
                 "name": "[parameters('accountType')]"
             },
-            "kind": "[parameters('kind')]",
+            "kind": "StorageV2",
             "tags": {
                 "creator": "DevOps Team"
             }
@@ -60,7 +57,7 @@
             "sku": {
                 "name": "[parameters('accountType')]"
             },
-            "kind": "[parameters('kind')]",
+            "kind": "BlobStorage",
             "tags": {
                 "creator": "DevOps Team"
             }

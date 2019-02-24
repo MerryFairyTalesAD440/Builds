@@ -11,9 +11,6 @@
         "accountType": {
             "value": "Standard_LRS"
         },
-        "kind": {
-            "value": "BlobStorage"
-        },
         "accessTier": {
             "value": "Hot"
         },

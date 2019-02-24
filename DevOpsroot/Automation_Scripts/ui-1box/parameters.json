@@ -9,7 +9,7 @@
             "value": "Standard_LRS"
         },
         "kind": {
-            "value": "BlobStorage"
+            "value": "StorageV2"
         },
         "accessTier": {
             "value": "Hot"
