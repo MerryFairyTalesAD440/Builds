@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageName": {
-            "value": "1boxtemp"
+            "value": "1boxtempstorage"
         },
         "accountType": {
             "value": "Standard_LRS"
