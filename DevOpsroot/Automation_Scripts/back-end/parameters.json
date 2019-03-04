@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": { 
         "functionname": {
-            "value": "apifunc"
+            "value": "apifunction"
         },
         "insightname": {
             "value": "apiinsight"
