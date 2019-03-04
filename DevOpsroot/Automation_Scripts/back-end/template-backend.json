@@ -3,8 +3,9 @@
         {
             "apiVersion": "2016-03-01",
             "type": "Microsoft.Web/sites",
-            "name": "[variables('name')]",
+            "name": "[variables('functionname')]",
             "properties": {
+                "name": "[variables('fuctionname')]",
                 "siteConfig": {
                     "appSettings": [
                         {
@@ -25,7 +26,7 @@
                         },
                         {
                             "name": "WEBSITE_CONTENTSHARE",
-                            "value": "[concat(toLower(variables('name')), '8f5c')]"
+                            "value": "[concat(toLower(variables('functionname')), '8f5c')]"
                         },
                         {
                             "name": "WEBSITE_NODE_DEFAULT_VERSION",
