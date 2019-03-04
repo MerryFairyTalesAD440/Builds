@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": { 
         "functionname": {
-            "value": "apifunction"
+            "value": "apifunctiondev"
         },
         "insightname": {
-            "value": "apiinsight"
+            "value": "apiinsightdev"
         },
         "storagename": {
-            "value": "apistorage"
+            "value": "apistoragedev"
         }
     }
 

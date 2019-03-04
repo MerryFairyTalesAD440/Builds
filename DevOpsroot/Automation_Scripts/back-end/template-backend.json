@@ -3,9 +3,9 @@
         {
             "apiVersion": "2016-03-01",
             "type": "Microsoft.Web/sites",
-            "name": "[variables('functionname')]",
+            "name": "[variables('name')]",
             "properties": {
-                "name": "[variables('fuctionname')]",
+                "name": "[variables('name')]",
                 "siteConfig": {
                     "appSettings": [
                         {
@@ -26,7 +26,7 @@
                         },
                         {
                             "name": "WEBSITE_CONTENTSHARE",
-                            "value": "[concat(toLower(variables('functionname')), '8f5c')]"
+                            "value": "[concat(toLower(variables('name')), '8f5c')]"
                         },
                         {
                             "name": "WEBSITE_NODE_DEFAULT_VERSION",
@@ -80,10 +80,10 @@
         }
     },
     "variables": {
-        "storageName": "[toLower( concat( parameters('storagename')))]",
+        "storagename": "[toLower( concat( parameters('storagename') ) )]",
         "location": "West US 2",
-        "name": "[toLower( concat( parameters('functionname')))]",
-        "insightName": "[toLower( concat( parameters('insightname')))]"
+        "name": "[toLower( concat( parameters('functionname') ) )]",
+        "insightname": "[toLower( concat( parameters('insightname') ) )]"
       },
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0"
