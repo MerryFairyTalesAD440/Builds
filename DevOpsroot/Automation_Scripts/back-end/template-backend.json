@@ -79,10 +79,10 @@
         }
     },
     "variables": {
-        "storageName": "[toLower( concat( parameters('storagename'), uniqueString(resourceGroup().id) ) )]",
+        "storageName": "[toLower( concat( parameters('storagename')))]",
         "location": "West US 2",
-        "name": "[toLower( concat( parameters('functionname'), uniqueString(resourceGroup().id) ) )]",
-        "insightName": "[toLower( concat( parameters('insightname'), uniqueString(resourceGroup().id) ) )]"
+        "name": "[toLower( concat( parameters('functionname')))]",
+        "insightName": "[toLower( concat( parameters('insightname')))]"
       },
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0"
