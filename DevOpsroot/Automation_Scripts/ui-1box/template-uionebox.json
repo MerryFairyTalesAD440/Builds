@@ -19,7 +19,7 @@
         }
     },
     "variables": {
-        "storageName": "[toLower( concat( parameters('storageName')) )]",
+        "storageName": "[toLower( concat( parameters('storageName'), uniqueString(resourceGroup().id)) )]",
         "location": "West US 2"
     },
     "resources": [
