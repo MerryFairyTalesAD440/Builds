@@ -43,8 +43,9 @@ param(
  [string]
  $templateFilePath = "template-apionebox.json",
 
- [string]
- $parametersFilePath = "parameters.json"
+ [Parameter(Mandatory=$False)]
+ [bool]
+ $VerboseOutput = $True
 )
 
 <#
@@ -66,13 +67,21 @@ Function RegisterRP {
 #******************************************************************************
 $ErrorActionPreference = "Stop"
 
-# sign in
-Write-Host "Logging in...";
-Login-AzureRmAccount;
+try {
+    # Remove stale context
+    Clear-AzureRmContext -Force;
+    
+    # sign in
+    Write-Host "Logging in...";
+    Login-AzureRmAccount;
 
-# select subscription
-Write-Host "Selecting subscription '$subscriptionId'";
-Select-AzureRmSubscription -SubscriptionID $subscriptionId;
+    # select subscription
+    Write-Host "Selecting subscription '$subscriptionId'";
+    Select-AzureRmSubscription -SubscriptionID $subscriptionId;
+}
+catch {
+    throw $_.Exception.Message;
+}
 
 # Register RPs
 $resourceProviders = @("microsoft.web","microsoft.storage","microsoft.insights");
@@ -97,11 +106,17 @@ else{
     Write-Host "Using existing resource group '$resourceGroupName'";
 }
 
+# Prepare the template parameters
+$templateBackEndParameters = @{
+    resourceUser=$resourceUser;
+
+}
+
 $deploymentName = ( -join ("deployment_", (Get-Date -Format "yyyy-MM-dd_HHmm").toString()))
 # Start the deployment
 Write-Host "Starting deployment...";
-if(Test-Path $parametersFilePath) {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath;
+if($VerboseOutput) {
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterObject $templateBackEndParameters -DeploymentName $deploymentName -Verbose;
 } else {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath;
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterObject $templateBackEndParameters -DeploymentName $deploymentName;
 }

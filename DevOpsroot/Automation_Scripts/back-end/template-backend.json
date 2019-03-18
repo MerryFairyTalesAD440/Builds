@@ -80,8 +80,8 @@
     "variables": {
         "storagename": "[toLower( concat(  'ad440api', parameters('resourceEnvironment'), 'str' ) )]",
         "location": "[resourceGroup().location]",
-        "functionname": "[toLower( concat( 'ad440-api', parameters('resourceEnvironment'), '-fa' ) )]",
-        "insightname": "[toLower( concat(  'ad440-api', parameters('resourceEnvironment'), '-insight' ) )]"
+        "functionname": "[toLower( concat( 'ad440-api-', parameters('resourceEnvironment'), '-fa' ) )]",
+        "insightname": "[toLower( concat(  'ad440-api-', parameters('resourceEnvironment'), '-insight' ) )]"
       },
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0"
