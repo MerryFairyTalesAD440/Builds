@@ -3,9 +3,9 @@
         {
             "apiVersion": "2016-03-01",
             "type": "Microsoft.Web/sites",
-            "name": "[variables('name')]",
+            "name": "[variables('functionname')]",
             "properties": {
-                "name": "[variables('name')]",
+                "name": "[variables('functionname')]",
                 "siteConfig": {
                     "appSettings": [
                         {
@@ -26,7 +26,7 @@
                         },
                         {
                             "name": "WEBSITE_CONTENTSHARE",
-                            "value": "[concat(toLower(variables('name')), '8f5c')]"
+                            "value": "[concat(toLower(variables('functionname')), '8f5c')]"
                         },
                         {
                             "name": "WEBSITE_NODE_DEFAULT_VERSION",
@@ -69,21 +69,19 @@
         }
     ],
     "parameters": {
-        "functionname": {
-            "type": "string"
-        },
-        "insightname": {
-            "type": "string"
-        },
-        "storagename": {
-            "type": "string"
+        "resourceEnvironment": {
+            "defaultValue": null,
+            "type": "string",
+            "metadata": {
+                "description": "The environment where the tenant backend will be provisioned"
+            }
         }
     },
     "variables": {
-        "storagename": "[toLower( concat( parameters('storagename') ) )]",
-        "location": "West US 2",
-        "name": "[toLower( concat( parameters('functionname') ) )]",
-        "insightname": "[toLower( concat( parameters('insightname') ) )]"
+        "storagename": "[toLower( concat(  'ad440api', parameters('resourceEnvironment'), 'str' ) )]",
+        "location": "[resourceGroup().location]",
+        "functionname": "[toLower( concat( 'ad440-api', parameters('resourceEnvironment'), '-fa' ) )]",
+        "insightname": "[toLower( concat(  'ad440-api', parameters('resourceEnvironment'), '-insight' ) )]"
       },
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0"
