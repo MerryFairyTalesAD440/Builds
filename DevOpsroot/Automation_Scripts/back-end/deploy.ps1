@@ -37,10 +37,6 @@ param(
  [string]
  $resourceGroupLocation,
 
- [Parameter(Mandatory=$True)]
- [string]
- $Location,
-
  [string]
  $templateFilePath = "template-backend.json",
 
