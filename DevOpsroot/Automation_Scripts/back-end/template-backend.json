@@ -1,0 +1,88 @@
+{
+    "resources": [
+        {
+            "apiVersion": "2016-03-01",
+            "type": "Microsoft.Web/sites",
+            "name": "[variables('functionname')]",
+            "properties": {
+                "name": "[variables('functionname')]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "dotnet"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storagename'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storagename')), '2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storagename'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storagename')), '2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTSHARE",
+                            "value": "[concat(toLower(variables('functionname')), '8f5c')]"
+                        },
+                        {
+                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "8.11.1"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(concat('microsoft.insights/components/', variables('insightname')) ,'2015-05-01').InstrumentationKey]"
+                        }
+                    ]
+                },
+                "clientAffinityEnabled": false,
+                "reserved": false
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storagename'))]",
+                "[concat('microsoft.insights/components/', variables('insightname'))]"
+            ],
+            "location": "[variables('location')]",
+            "kind": "functionapp"
+        },
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('storagename')]",
+            "location": "[variables('location')]",
+            "properties": {
+                "accountType": "Standard_LRS"
+            }
+        },
+        {
+            "apiVersion": "2015-05-01",
+            "name": "[variables('insightname')]",
+            "type": "microsoft.insights/components",
+            "location": "[variables('location')]",
+            "properties": {
+                "ApplicationId": "[variables('insightname')]",
+                "Request_Source": "IbizaWebAppExtensionCreate"
+            }
+        }
+    ],
+    "parameters": {
+        "resourceEnvironment": {
+            "defaultValue": null,
+            "type": "string",
+            "metadata": {
+                "description": "The environment where the tenant backend will be provisioned"
+            }
+        }
+    },
+    "variables": {
+        "storagename": "[toLower( concat(  'ad440api', parameters('resourceEnvironment'), 'str' ) )]",
+        "location": "[resourceGroup().location]",
+        "functionname": "[toLower( concat( 'ad440-api-', parameters('resourceEnvironment'), '-fa' ) )]",
+        "insightname": "[toLower( concat(  'ad440-api-', parameters('resourceEnvironment'), '-insight' ) )]"
+      },
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0"
+}

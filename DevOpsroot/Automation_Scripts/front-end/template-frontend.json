@@ -1,0 +1,59 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "tier": { 
+            "type": "array", 
+              "defaultValue": [ 
+                "webstore", 
+                "assetstore"
+                ] 
+            },
+            "resourceEnvironment": {
+                "defaultValue": null,
+                "type": "string",
+                "metadata": {
+                    "description": "The environment where the tenant backend will be provisioned"
+                }
+            }
+    },
+    "resources": [
+        {
+            "name": "[concat('ad440ui', parameters('resourceEnvironment'), parameters('tier')[0])]", 
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2018-07-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accessTier": "Hot",
+                "supportsHttpsTrafficOnly": true
+            },
+            "dependsOn": [],
+            "sku": {
+                "name": "Standard_LRS"
+            },
+            "kind": "StorageV2",
+            "tags": {
+                "creator": "DevOps Team"
+            }
+        },
+        {
+            "name": "[concat('ad440ui', parameters('resourceEnvironment'), parameters('tier')[1])]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2018-07-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "accessTier": "Hot",
+                "supportsHttpsTrafficOnly": true
+            },
+            "dependsOn": [],
+            "sku": {
+                "name": "Standard_LRS"
+            },
+            "kind": "StorageV2",
+            "tags": {
+                "creator": "DevOps Team"
+            }
+        }
+    ],
+    "outputs": {}
+}
