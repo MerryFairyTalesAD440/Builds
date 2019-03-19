@@ -9,35 +9,27 @@
                 "assetstore"
                 ] 
             },
-        "storageName": {
-            "type": "string"
-        },
-        "location": {
-            "type": "string"
-        },
-        "accountType": {
-            "type": "string"
-        },
-        "accessTier": {
-            "type": "string"
-        },
-        "supportsHttpsTrafficOnly": {
-            "type": "bool"
-        }
+            "resourceEnvironment": {
+                "defaultValue": null,
+                "type": "string",
+                "metadata": {
+                    "description": "The environment where the tenant backend will be provisioned"
+                }
+            }
     },
     "resources": [
         {
-            "name": "[concat(parameters('storageName'), parameters('tier')[0])]", 
+            "name": "[concat('ad440ui', parameters('resourceEnvironment'), parameters('tier')[0])]", 
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-07-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "accessTier": "Hot",
-                "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]"
+                "supportsHttpsTrafficOnly": true
             },
             "dependsOn": [],
             "sku": {
-                "name": "[parameters('accountType')]"
+                "name": "Standard_LRS"
             },
             "kind": "StorageV2",
             "tags": {
@@ -45,19 +37,19 @@
             }
         },
         {
-            "name": "[concat(parameters('storageName'), parameters('tier')[1])]",
+            "name": "[concat('ad440ui', parameters('resourceEnvironment'), parameters('tier')[1])]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-07-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
-                "accessTier": "[parameters('accesstier')]",
-                "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]"
+                "accessTier": "Hot",
+                "supportsHttpsTrafficOnly": true
             },
             "dependsOn": [],
             "sku": {
-                "name": "[parameters('accountType')]"
+                "name": "Standard_LRS"
             },
-            "kind": "BlobStorage",
+            "kind": "StorageV2",
             "tags": {
                 "creator": "DevOps Team"
             }

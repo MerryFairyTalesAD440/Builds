@@ -38,13 +38,11 @@ param(
  $resourceGroupLocation,
 
  [string]
- $deploymentName,
-
- [string]
  $templateFilePath = "template-frontend.json",
 
- [string]
- $parametersFilePath = "parameters.json"
+ [Parameter(Mandatory=$False)]
+ [bool]
+ $VerboseOutput = $True
 )
 
 <#
@@ -66,16 +64,21 @@ Function RegisterRP {
 #******************************************************************************
 $ErrorActionPreference = "Stop"
 
-# sign in
-Write-Host "Logging in...";
-Login-AzureRmAccount;
+try {
+    # Remove stale context
+    Clear-AzureRmContext -Force;
+    
+    # sign in
+    Write-Host "Logging in...";
+    Login-AzureRmAccount;
 
-# # remove stale context
-# Clear-AzContext -Force;
-
-# select subscription
-Write-Host "Selecting subscription '$subscriptionId'";
-Select-AzureRmSubscription -SubscriptionID $subscriptionId;
+    # select subscription
+    Write-Host "Selecting subscription '$subscriptionId'";
+    Select-AzureRmSubscription -SubscriptionID $subscriptionId;
+}
+catch {
+    throw $_.Exception.Message;
+}
 
 # Register RPs
 $resourceProviders = @("microsoft.storage");
@@ -99,11 +102,17 @@ else{
     Write-Host "Using existing resource group '$resourceGroupName'";
 }
 
+# Prepare the template parameters
+$templateBackEndParameters = @{
+    resourceEnvironment=$resourceEnvironment;
+
+}
+
 $deploymentName = ( -join ("deployment_", (Get-Date -Format "yyyy-MM-dd_HHmm").toString()))
 # Start the deployment
 Write-Host "Starting deployment...";
-if(Test-Path $parametersFilePath) {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath;
+if($VerboseOutput) {
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterObject $templateBackEndParameters -DeploymentName $deploymentName -Verbose;
 } else {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath;
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterObject $templateBackEndParameters -DeploymentName $deploymentName;
 }
